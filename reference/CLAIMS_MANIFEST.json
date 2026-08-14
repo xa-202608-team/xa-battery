@@ -1,0 +1,301 @@
+{
+  "manifest": "CLAIMS_MANIFEST.json",
+  "package": "battery_release_v2",
+  "purpose": "Binds every load-bearing claim to its evidence file, field and sha256, plus the scope it is allowed to support and the extrapolation it forbids.",
+  "is_promoted": false,
+  "creates_production_v2": false,
+  "modifies_recommended_config": false,
+  "evidence_domain": "SIMULATION_ONLY",
+  "frozen_status": {
+    "point_model": "target_only_arc_space",
+    "high_stability_baseline": "observable_local_trend_extrapolation",
+    "transfer_mechanism": "FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT",
+    "phase3_verdict": "SOURCE_PRIOR_NOT_VALIDATED",
+    "TIME_NORMALIZATION_GATE": "RATE_DAY_REPARAMETERIZATION_ONLY",
+    "EXPOSURE_GATE": "EXPOSURE_INPUT_NOT_AVAILABLE",
+    "STRESS_GATE_LOW_DATA": "STRESS_NOT_VALIDATED",
+    "STRESS_GATE_FULL_DATA": "STRESS_NOT_VALIDATED",
+    "CONFORMAL_GATE": "CONFORMAL_NOT_VALIDATED",
+    "rul_evidence": "RUL_EVIDENCE_INSUFFICIENT",
+    "phase6": "PHASE6_CLOSED_WITHOUT_TRAINING",
+    "patchtst": "PATCHTST_SKIPPED_BY_PREDEFINED_GATE",
+    "candidate_status": "CANDIDATE_NOT_PROMOTED",
+    "evidence_domain": "SIMULATION_ONLY"
+  },
+  "patchtst": {
+    "was_run": false,
+    "was_implemented": false,
+    "is_experiment_failure": false,
+    "status": "PATCHTST_SKIPPED_BY_PREDEFINED_GATE",
+    "must_be_stated": "PatchTST was NOT run. This may not be written as 'the PatchTST experiment failed' — no PatchTST experiment exists. It is a pre-defined gate decision plus model-complexity control. When real data arrives, deep models may be re-evaluated from scratch."
+  },
+  "transfer_mechanism_meaning": "The frozen source ARC clip/scaler defines the FEATURE SPACE and is reused unchanged; the regression head (coef + intercept) is refitted on target-domain rows only. The frozen source coefficients are NOT used as a prior — Phase 3 ruled SOURCE_PRIOR_NOT_VALIDATED and that ruling stands.",
+  "n_claims": 24,
+  "claims": [
+    {
+      "claim": "The final point model is target_only_arc_space: the frozen source ARC clip/scaler defines the feature space and is reused unchanged, while the regression head is refitted on target-domain rows only.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/model_manifest_v2_candidate.json",
+      "evidence_field": "point_model.model_id / transfer_mechanism",
+      "evidence_sha256": "d86bcece7e4c8dac5aed4862e00ffe3896afef520097cdf13260a36966775963",
+      "value": "target_only_arc_space",
+      "allowed_scope": "the frozen configuration replayed by this package",
+      "forbidden_extrapolation": "may not be described as a source model generalising into the space domain; the frozen source COEFFICIENTS are not used"
+    },
+    {
+      "claim": "The transfer mechanism is FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/model_manifest_v2_candidate.json",
+      "evidence_field": "transfer_mechanism",
+      "evidence_sha256": "d86bcece7e4c8dac5aed4862e00ffe3896afef520097cdf13260a36966775963",
+      "value": "FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT",
+      "allowed_scope": "a coordinate system crossed the domain gap; a predictive function did not",
+      "forbidden_extrapolation": "may not be restated as 'frozen source coefficients provided additional gain'"
+    },
+    {
+      "claim": "Source PRE-PROCESSING transfer has measured value: the ARC source space beat a target-native Ridge on 6/6 environment families.",
+      "evidence_file": "reports/stk_transfer_v2/02_baselines/baseline_decision.json",
+      "evidence_field": "decisions.source_space_vs_native",
+      "evidence_sha256": "4c5214828a0c72f3e700510915726a448f993c0a34625b1b3c25dd39be04e5c5",
+      "value": "6/6 families",
+      "allowed_scope": "simulated environment families in this study",
+      "forbidden_extrapolation": "may not be restated as the source PARAMETER prior being validated"
+    },
+    {
+      "claim": "The source PARAMETER prior was not validated: inner folds chose lambda_source=0 in 44 of 72 cells (61.1%), and every non-zero choice was the grid minimum 0.01.",
+      "evidence_file": "reports/stk_transfer_v2/03_source_prior/scientific_transfer_gate.json",
+      "evidence_field": "status_by_prior",
+      "evidence_sha256": "4308fd23ce8a1e207417194089796ffcbad877e6154c5f089bcc74119af6257d",
+      "value": "SOURCE_PRIOR_NOT_VALIDATED on all three formal priors",
+      "allowed_scope": "the pre-locked six-value lambda grid",
+      "forbidden_extrapolation": "may not be reopened by widening the grid upward — the selected values sit at the BOTTOM of it"
+    },
+    {
+      "claim": "Point accuracy: family-macro MAE 0.003328 absolute SOH for the final model, under leave-one-family-out over 6 held-out environment families, H in {2,4,8}.",
+      "evidence_file": "battery_release_v2/results/reference/outer_fold_results_reference.csv",
+      "evidence_field": "family_macro_mae (arm=FINAL_MODEL, mean over 18 cells)",
+      "evidence_sha256": "8f785db06ed5b98603b81ac34a043ac45671c1cfa47cfb5750a9603808d3b7cc",
+      "value": 0.0033283141403218945,
+      "allowed_scope": "STK-derived simulated twin only, 120 simulated trajectories",
+      "forbidden_extrapolation": "may not be described as real-satellite accuracy or an on-orbit guarantee"
+    },
+    {
+      "claim": "The non-learning baseline observable_local_trend_extrapolation reaches 0.003588 on the same sample set, so the fitted model's margin over a closed-form slope extrapolation is about 7.2%.",
+      "evidence_file": "battery_release_v2/results/reference/outer_fold_results_reference.csv",
+      "evidence_field": "family_macro_mae (arm=STABILITY_BASELINE)",
+      "evidence_sha256": "8f785db06ed5b98603b81ac34a043ac45671c1cfa47cfb5750a9603808d3b7cc",
+      "value": 0.003588473151840317,
+      "allowed_scope": "the identical sample set as the final model",
+      "forbidden_extrapolation": "the small margin may not be inflated into a large one; the baseline requires no fitting at all"
+    },
+    {
+      "claim": "TIME_NORMALIZATION_GATE: T1 rate-per-day is ALGEBRAICALLY IDENTICAL to T0 under per-horizon separate fitting, verified to 2.8e-13 over 72 cells at the same alpha against a 1e-10 tolerance.",
+      "evidence_file": "reports/stk_transfer_v2/04_exposure_stress/gate_decision.json",
+      "evidence_field": "gates.TIME_NORMALIZATION_GATE.status",
+      "evidence_sha256": "d032652ba6a735c032773e4684386d060158a8fe5507d4f4c40f54a97c17db35",
+      "value": "RATE_DAY_REPARAMETERIZATION_ONLY",
+      "allowed_scope": "a reparameterisation identity, with a deliberately-mismatched control arm that does not close",
+      "forbidden_extrapolation": "no MAE difference between T0 and T1 may be described as a time-normalisation gain"
+    },
+    {
+      "claim": "EXPOSURE_GATE: planned future exposure does not exist in this dataset — future_planned_delta_efc is NULL on 100% of rows, so T2 was never run.",
+      "evidence_file": "reports/stk_transfer_v2/04_exposure_stress/gate_decision.json",
+      "evidence_field": "gates.EXPOSURE_GATE.status",
+      "evidence_sha256": "d032652ba6a735c032773e4684386d060158a8fe5507d4f4c40f54a97c17db35",
+      "value": "EXPOSURE_INPUT_NOT_AVAILABLE",
+      "allowed_scope": "the evidence status INSUFFICIENT_EVIDENCE_NOT_DETERMINABLE_AT_PREDICTION_TIME",
+      "forbidden_extrapolation": "realized exposure may NEVER be substituted — it reads the trajectory after the cutoff and is ORACLE_AUDIT_ONLY"
+    },
+    {
+      "claim": "STRESS_GATE_LOW_DATA and STRESS_GATE_FULL_DATA: stress was built, audited and run — 25 of 29 derived obs_hist_* fields cleared the identifiability audit — and neither F2 nor F3 passed a gate.",
+      "evidence_file": "reports/stk_transfer_v2/04_exposure_stress/gate_decision.json",
+      "evidence_field": "gates.STRESS_GATE_FULL_DATA.status",
+      "evidence_sha256": "d032652ba6a735c032773e4684386d060158a8fe5507d4f4c40f54a97c17db35",
+      "value": "STRESS_NOT_VALIDATED",
+      "allowed_scope": "observable history derived under a <= context_end prefix bound",
+      "forbidden_extrapolation": "may not be restated as 'stress features help'; adding more stress columns is not the indicated next step"
+    },
+    {
+      "claim": "No strict counterfactual is producible: the digital-twin generator is absent from this project, so every factor-direction claim is capped at OBSERVATIONAL_EVIDENCE and labelled NON_CAUSAL.",
+      "evidence_file": "reports/stk_transfer_v2/04_exposure_stress/counterfactual_design.json",
+      "evidence_field": "status",
+      "evidence_sha256": "161b154c0a2306735e0e72f2003b547292471466a887cec955f888885025ac59",
+      "value": "OBSERVATIONAL_EVIDENCE ceiling",
+      "allowed_scope": "association within the simulated data",
+      "forbidden_extrapolation": "no causal claim about any stress factor may be made"
+    },
+    {
+      "claim": "The orbit triplet (altitude, inclination, RAAN) maps ONE-TO-ONE onto the 6 environment families, so each is a family-identity proxy and is permanently excluded from every model input.",
+      "evidence_file": "reports/stk_transfer_v2/04_exposure_stress/stress_observability_contract.json",
+      "evidence_field": "identifiability audit",
+      "evidence_sha256": "b75bac83d958cce93a16cf1640c459262bb3f65a356ea4e81d057fc9760f192b",
+      "value": "excluded by measurement, not by taste",
+      "allowed_scope": "the exclusion rule",
+      "forbidden_extrapolation": "may not be reintroduced under a re-encoding"
+    },
+    {
+      "claim": "Uncertainty at 90% nominal: family-macro coverage 0.9045, worst family 0.7641 (h550_i053_raan180), mean interval width 0.016053 SOH.",
+      "evidence_file": "battery_release_v2/results/reference/conformal_results_reference.csv",
+      "evidence_field": "family_macro_coverage / worst_family_coverage / mean_interval_width (90%, ALL_MATCHED)",
+      "evidence_sha256": "b5ba5f80d6f922bc52751f94dd509af84c86913e3a3e8bf786832f4732cb9676",
+      "value": {
+        "family_macro": 0.9044961850048088,
+        "worst_family": 0.7641092753149027,
+        "mean_width": 0.0160531309559967
+      },
+      "allowed_scope": "PER-HORIZON MARGINAL coverage, STK-derived simulated twin only",
+      "forbidden_extrapolation": "NOT simultaneous across the three horizons; NOT family-conditional; NOT an on-orbit coverage guarantee; may not be repaired by widening post hoc"
+    },
+    {
+      "claim": "Uncertainty at 95% nominal: family-macro coverage 0.9530, worst family 0.8628, mean width 0.023213 SOH.",
+      "evidence_file": "battery_release_v2/results/reference/conformal_results_reference.csv",
+      "evidence_field": "coverage rows at coverage_nominal=0.95 (ALL_MATCHED)",
+      "evidence_sha256": "b5ba5f80d6f922bc52751f94dd509af84c86913e3a3e8bf786832f4732cb9676",
+      "value": {
+        "family_macro": 0.9529951880063882,
+        "worst_family": 0.862751513168657,
+        "mean_width": 0.0232134872538697
+      },
+      "allowed_scope": "PER-HORIZON MARGINAL coverage, STK-derived simulated twin only",
+      "forbidden_extrapolation": "same prohibitions as the 90% row"
+    },
+    {
+      "claim": "CONFORMAL_GATE is CONFORMAL_NOT_VALIDATED. Two shortfall flags fired: CONFORMAL_WORST_FAMILY_SHORTFALL and FIXED_HOLDOUT_COVERAGE_SHORTFALL (fixed-holdout window-micro coverage 0.8683 at 90% nominal). CONFORMAL_FAMILY_MACRO_SHORTFALL did NOT fire.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/gate_decision.json",
+      "evidence_field": "conformal gate status and flags",
+      "evidence_sha256": "db6680db81e53fef438141be7b8398af540b7b5c328a087f0f5a3a4c25c7d0cf",
+      "value": "CONFORMAL_NOT_VALIDATED",
+      "allowed_scope": "the measured shortfall, reported as measured",
+      "forbidden_extrapolation": "the shortfall may not be 'fixed' by re-calibration; the gate may not be reported as passed"
+    },
+    {
+      "claim": "The two group-aware calibration methods coincide by ARITHMETIC on this dataset (every family holds exactly 20 trajectories), measured max |delta coverage| = 0.0.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/conformal_method_contract.json",
+      "evidence_field": "family_balance_degeneracy",
+      "evidence_sha256": "bf26b2f3f33c95b931f54f2ea63588d2ea6c24f5e384715e40cf21f489050a26",
+      "value": "GROUP_AWARE_METHODS_COINCIDE_BY_CONSTRUCTION_ON_THIS_DATASET",
+      "allowed_scope": "an algebraic identity of this family design",
+      "forbidden_extrapolation": "the robustness control's agreement is NOT independent corroboration of the family-balanced result"
+    },
+    {
+      "claim": "POOLED_SPLIT_CONFORMAL is NOT group-aware: its finite-sample correction counts ~10,000 overlapping windows rather than 100 independent trajectories, which is why its interval is narrower and its coverage lower.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/conformal_method_contract.json",
+      "evidence_field": "conformal_methods.POOLED_SPLIT_CONFORMAL",
+      "evidence_sha256": "bf26b2f3f33c95b931f54f2ea63588d2ea6c24f5e384715e40cf21f489050a26",
+      "value": "is_group_aware = False",
+      "allowed_scope": "a control quantifying the cost of ignoring group structure",
+      "forbidden_extrapolation": "may never be described as group-aware, and is not a candidate"
+    },
+    {
+      "claim": "RUL, arm FINAL_MODEL: 92 eligible anchors, crossing detection 0.3478, false alarm 0.0088 over 10953 negatives.",
+      "evidence_file": "battery_release_v2/results/reference/rul_results_summary.csv",
+      "evidence_field": "row arm=FINAL_MODEL",
+      "evidence_sha256": "16ff5ce57dd23a5541b76d40cb2e5979f9fde82df7684806c0eb6dc2c668b6fa",
+      "value": {
+        "eligible": 92,
+        "detection": 0.3478260869565217,
+        "false_alarm": 0.0087647219939742
+      },
+      "allowed_scope": "a secondary display derived from the SOH point predictions, STK-derived simulated twin only",
+      "forbidden_extrapolation": "RUL_EVIDENCE_INSUFFICIENT — no ranking may rest on it"
+    },
+    {
+      "claim": "RUL, arm STABILITY_BASELINE: 92 eligible anchors, crossing detection 0.1413, false alarm 0.0023 over 10953 negatives.",
+      "evidence_file": "battery_release_v2/results/reference/rul_results_summary.csv",
+      "evidence_field": "row arm=STABILITY_BASELINE",
+      "evidence_sha256": "16ff5ce57dd23a5541b76d40cb2e5979f9fde82df7684806c0eb6dc2c668b6fa",
+      "value": {
+        "eligible": 92,
+        "detection": 0.1413043478260869,
+        "false_alarm": 0.0022824796859307
+      },
+      "allowed_scope": "a secondary display derived from the SOH point predictions, STK-derived simulated twin only",
+      "forbidden_extrapolation": "RUL_EVIDENCE_INSUFFICIENT — no ranking may rest on it"
+    },
+    {
+      "claim": "The RUL eligible label is structurally degenerate: all 92 eligible anchors carry target_rul_days == 112.0 with std 0.0, because the simulation terminates at EOL. A constant 112-day predictor would score MAE = 0.",
+      "evidence_file": "battery_release_v2/results/reference/rul_results_summary.csv",
+      "evidence_field": "n_distinct_target_rul_days",
+      "evidence_sha256": "16ff5ce57dd23a5541b76d40cb2e5979f9fde82df7684806c0eb6dc2c668b6fa",
+      "value": 1,
+      "allowed_scope": "a data-shape limitation of this dataset",
+      "forbidden_extrapolation": "RUL MAE may not be used to rank arms or to claim remaining-life prediction accuracy; the eligible set may not be widened to escape the degeneracy"
+    },
+    {
+      "claim": "The warning lead time is nearly vacuous: 90 of the 92 eligible anchors are already at or below the 0.80 threshold when observed (mean anchor SOH ~ 0.755), leaving 2 anchors behind each reported mean.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/rul_results.csv",
+      "evidence_field": "n_warning_already_below_threshold_at_anchor / n_warning_predicted_in_future",
+      "evidence_sha256": "bfaa787a2ef930228445795aa112a5e721727b2e783c24b89e28911117633375",
+      "value": {
+        "already_below": 90,
+        "forecast": 2
+      },
+      "allowed_scope": "an honest description of the eligible set's construction",
+      "forbidden_extrapolation": "may not be quoted as a warning-capability metric"
+    },
+    {
+      "claim": "PatchTST was NOT run and NOT implemented. Phase 6 was closed by a pre-declared gate; no PatchTST result exists, favourable or unfavourable.",
+      "evidence_file": "reports/stk_transfer_v2/06_patchtst/phase6_decision.json",
+      "evidence_field": "status / model_status / was_run / was_implemented",
+      "evidence_sha256": "d83af7d29d43ea37b99a0510578e13a84c4cfa92d49322154625cd57d6700a17",
+      "value": {
+        "status": "PHASE6_CLOSED_WITHOUT_TRAINING",
+        "was_run": false,
+        "was_implemented": false,
+        "is_experiment_failure": false
+      },
+      "allowed_scope": "a decision not to run, taken on pre-declared grounds",
+      "forbidden_extrapolation": "may NOT be written as 'the PatchTST experiment failed', 'PatchTST underperformed', 'deep models were empirically ruled out' or 'a neural baseline was measured' — all four would be fabrications"
+    },
+    {
+      "claim": "The evaluation is leakage-free by construction: the held-out family enters no fit, no selection, no calibration set and no quantile, and calibration residuals come from a leave-one-FAMILY-out cross-fit, which is strictly stronger than leave-one-trajectory-out.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/conformal_method_contract.json",
+      "evidence_field": "crossfit_construction",
+      "evidence_sha256": "bf26b2f3f33c95b931f54f2ea63588d2ea6c24f5e384715e40cf21f489050a26",
+      "value": "LEAVE_ONE_FAMILY_OUT_CROSSFIT_WITHIN_OUTER_TRAIN",
+      "allowed_scope": "the nested LOFO protocol as executed",
+      "forbidden_extrapolation": "the fixed holdout may NOT be called a virgin or never-seen test set — the frozen Task C never read the split column and family-LOFO trains on those families in 6/6 folds"
+    },
+    {
+      "claim": "Every result in this package was measured on an STK-derived simulated twin. No real on-orbit telemetry entered any stage of the work.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/model_manifest_v2_candidate.json",
+      "evidence_field": "simulation_caveat",
+      "evidence_sha256": "d86bcece7e4c8dac5aed4862e00ffe3896afef520097cdf13260a36966775963",
+      "value": "SIMULATION_ONLY",
+      "allowed_scope": "a method and protocol validated in simulation",
+      "forbidden_extrapolation": "this is NOT a flight-qualified predictor; real-satellite performance was NEVER TESTED"
+    },
+    {
+      "claim": "This package is a CANDIDATE. It promotes nothing, creates no production v2, and modifies no formal recommended configuration.",
+      "evidence_file": "reports/stk_transfer_v2/05_uncertainty_rul/model_manifest_v2_candidate.json",
+      "evidence_field": "status / is_promoted / is_production",
+      "evidence_sha256": "d86bcece7e4c8dac5aed4862e00ffe3896afef520097cdf13260a36966775963",
+      "value": {
+        "status": "CANDIDATE_NOT_PROMOTED",
+        "is_promoted": false,
+        "is_production": false
+      },
+      "allowed_scope": "CANDIDATE_NOT_PROMOTED",
+      "forbidden_extrapolation": "may not be described as a promoted or production model"
+    }
+  ],
+  "statements_that_may_not_be_made": [
+    "Source-Prior is validated after all",
+    "the Phase 3 SOURCE_PRIOR_NOT_VALIDATED verdict is overturned",
+    "a Phase 4 gate is overturned",
+    "stress features help",
+    "planned mission exposure is available",
+    "family-conditional or on-orbit coverage is guaranteed",
+    "coverage holds simultaneously across the three horizons",
+    "RUL is validated",
+    "PatchTST was tried and failed",
+    "production v2 is complete",
+    "STK simulation metrics are real-satellite accuracy",
+    "the 90% band covers the 112-day trajectory with 90% probability",
+    "the robustness control confirms the family-balanced result",
+    "the fixed holdout is a virgin / never-seen test set",
+    "PatchTST underperformed",
+    "deep models were empirically ruled out on this dataset",
+    "a neural baseline was measured",
+    "an RUL beyond 112 days was predicted",
+    "the RUL MAE of two arms computed on different eligible sets may be compared"
+  ]
+}

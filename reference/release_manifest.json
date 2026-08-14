@@ -1,0 +1,392 @@
+{
+  "package": "battery_release_v2",
+  "version": "2.0.0-candidate",
+  "status": "CANDIDATE_NOT_PROMOTED",
+  "evidence_domain": "SIMULATION_ONLY",
+  "built_at_utc": "2026-08-07T04:13:37.181814+00:00",
+  "point_model": "target_only_arc_space",
+  "high_stability_baseline": "observable_local_trend_extrapolation",
+  "transfer_mechanism": "FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT",
+  "transfer_mechanism_meaning": "The frozen source ARC clip/scaler defines the FEATURE SPACE and is reused unchanged; the regression head (coef + intercept) is refitted on target-domain rows only. The frozen source coefficients are NOT used as a prior — Phase 3 ruled SOURCE_PRIOR_NOT_VALIDATED and that ruling stands.",
+  "frozen_status": {
+    "point_model": "target_only_arc_space",
+    "high_stability_baseline": "observable_local_trend_extrapolation",
+    "transfer_mechanism": "FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT",
+    "phase3_verdict": "SOURCE_PRIOR_NOT_VALIDATED",
+    "TIME_NORMALIZATION_GATE": "RATE_DAY_REPARAMETERIZATION_ONLY",
+    "EXPOSURE_GATE": "EXPOSURE_INPUT_NOT_AVAILABLE",
+    "STRESS_GATE_LOW_DATA": "STRESS_NOT_VALIDATED",
+    "STRESS_GATE_FULL_DATA": "STRESS_NOT_VALIDATED",
+    "CONFORMAL_GATE": "CONFORMAL_NOT_VALIDATED",
+    "rul_evidence": "RUL_EVIDENCE_INSUFFICIENT",
+    "phase6": "PHASE6_CLOSED_WITHOUT_TRAINING",
+    "patchtst": "PATCHTST_SKIPPED_BY_PREDEFINED_GATE",
+    "candidate_status": "CANDIDATE_NOT_PROMOTED",
+    "evidence_domain": "SIMULATION_ONLY"
+  },
+  "self_contained": true,
+  "parent_project_dependency": "none",
+  "requires_stk_installation": false,
+  "requires_network_at_runtime": false,
+  "entry_points": {
+    "verify": "python -m battery_entry verify",
+    "reproduce_quick": "python -m battery_entry reproduce --mode quick --output <dir>",
+    "reproduce_full": "python -m battery_entry reproduce --mode full --output <dir>",
+    "predict": "python -m battery_entry predict --input <csv> --output <csv>"
+  },
+  "numerical_acceptance": {
+    "release_vs_frozen_predictions": {
+      "rtol": 0,
+      "atol": 1e-12
+    },
+    "feature_recomputation": {
+      "atol": 1e-12
+    },
+    "metric_tables": {
+      "atol": 1e-09
+    }
+  },
+  "build_environment": {
+    "python": "3.9.25",
+    "platform": "Windows-10-10.0.26200-SP0"
+  },
+  "n_files": 54,
+  "total_size_bytes": 31256599,
+  "files": [
+    {
+      "path": ".dockerignore",
+      "role": "container build context filter",
+      "size_bytes": 587,
+      "sha256": "3f52068b50a6857a01d289cc7c5b99320140f03e35f88a1e26fb925064dde5d0"
+    },
+    {
+      "path": "battery_entry/__init__.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 2790,
+      "sha256": "0d362e437ebbdc96d21efe0b565ec04cd14aad2a48b72e36dcec4f7596be0a3f"
+    },
+    {
+      "path": "battery_entry/__main__.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 207,
+      "sha256": "d096c456df21bc909ec19d044bd9c894cca7f57baef2253231abf04939b869d5"
+    },
+    {
+      "path": "battery_entry/cli.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 8021,
+      "sha256": "75583edfde98060e81f3971e8f0e9a7caebf015c0b0bee9d50f33beffe5c6a17"
+    },
+    {
+      "path": "battery_entry/conformal.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 7936,
+      "sha256": "1cb912001a4cf6bfcec60bec8e60018c0734d42391b1bdb9722c56e33e9891db"
+    },
+    {
+      "path": "battery_entry/features.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 3318,
+      "sha256": "2db28e40cb49b7970d20398ac81bb70430e8ca9b98c65f984d93fe0d0738ee52"
+    },
+    {
+      "path": "battery_entry/model.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 9503,
+      "sha256": "676a2aeaff0c7642ce243d7c43a9e14d826c5c24c0c88631b8608f3f676282f5"
+    },
+    {
+      "path": "battery_entry/paths.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 5173,
+      "sha256": "99a8481bf795a15eaf44e50094948462be0b422c8b1380760f7c8a90d38e39e0"
+    },
+    {
+      "path": "battery_entry/predict.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 9809,
+      "sha256": "84f59d1a90e7d9455f3274082039e91fbb470e2ab659bbcd6479af0a8d901e54"
+    },
+    {
+      "path": "battery_entry/reproduce.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 23588,
+      "sha256": "6a8c797873e3bee30d2f6a42826e29ba0afd0147f936262d4432cbacd1a233b7"
+    },
+    {
+      "path": "battery_entry/rul.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 9329,
+      "sha256": "c0082d5502e4fbee79c9da3806c2088717ba70bfb6d473f26ae6236300aa096c"
+    },
+    {
+      "path": "battery_entry/schema.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 10103,
+      "sha256": "13f311b3dc1d6a0286094e91cb72a98fbced02847793e2252a21a04cd37419d5"
+    },
+    {
+      "path": "battery_entry/verify.py",
+      "role": "code — CLI, features, model, conformal, RUL, schema, verify",
+      "size_bytes": 22265,
+      "sha256": "fdc38f61f5e4f556ff6ab177c9d39d68765734283da55eab2c4cee70724880f9"
+    },
+    {
+      "path": "CLAIMS_MANIFEST.json",
+      "role": "claims bound to evidence",
+      "size_bytes": 20674,
+      "sha256": "189e14730abcb6adc4b3f4b702405b321af74aef7556df513e2db4ec9d87c507"
+    },
+    {
+      "path": "configs/release.yaml",
+      "role": "release configuration",
+      "size_bytes": 3680,
+      "sha256": "1a590ab68150843861dac044942422308a328d5dbd9581d6c9d6ebdfaebf0443"
+    },
+    {
+      "path": "data/L2_reference_points_v2_min.csv",
+      "role": "reference data slice",
+      "size_bytes": 1013719,
+      "sha256": "c445c6100b9198e3f001bf0d66f57a73660abec1b4f3fcf1c0d65470cb31a3e7"
+    },
+    {
+      "path": "data/L3_windows_v2_arc_clean_fixed_min.csv",
+      "role": "reference data slice",
+      "size_bytes": 27839449,
+      "sha256": "ecdf730d03136bb055eb017be1f6cc44f6fbe4ad88a3f8c2999f20c9420fbb5c"
+    },
+    {
+      "path": "data/reference_matrix.npz",
+      "role": "reference data slice",
+      "size_bytes": 1874908,
+      "sha256": "320fa1e8e94bcebe5f601339941ab427cf72592be7cbd791f02554fba5907308"
+    },
+    {
+      "path": "data/split_manifest_v2.csv",
+      "role": "reference data slice",
+      "size_bytes": 12257,
+      "sha256": "45c0909f78031a6e28a0fbaf2d274882615c3ca7c688d6c6f90445575d93e47e"
+    },
+    {
+      "path": "DATA_CARD.md",
+      "role": "data card",
+      "size_bytes": 8080,
+      "sha256": "7f10da6893e4addd5bf51824bb56126a0049c1d63e3a9411bbc2fde3732ed5be"
+    },
+    {
+      "path": "Dockerfile",
+      "role": "container specification",
+      "size_bytes": 2778,
+      "sha256": "f5af2e3a190bf9abc0cbb563b2d23b610555f78bbf79ac8892b0827fb901eb21"
+    },
+    {
+      "path": "docs/DATA_LINEAGE.md",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 3652,
+      "sha256": "929b18ae9845642e2f79aab43e73828594d02c01709644e14b8e70014abdd62b"
+    },
+    {
+      "path": "docs/GATES.md",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 9274,
+      "sha256": "dbef55d13269870eeecdada439471f332cf9cdb4c7e376c5f4bd93a13e4be78f"
+    },
+    {
+      "path": "docs/PROVENANCE.md",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 5668,
+      "sha256": "c3ab08abf014a8814dd64f2d967ceb5a8fef752dc30df8dca8899f3766a38dc9"
+    },
+    {
+      "path": "docs/stk_metadata/dataset_summary.json",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 2006,
+      "sha256": "d8b70b6e25ae616cfc59c3a4581dfff3acbe90f9473a914c91d171f1715d2a3a"
+    },
+    {
+      "path": "docs/stk_metadata/generation_config.json",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 595,
+      "sha256": "033cd8fe8ea046a6fbdff3a2e0b4ad1d81263699b68a02d7dbc4820175f0260f"
+    },
+    {
+      "path": "docs/stk_metadata/scenario_audit_manifest.csv",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 16051,
+      "sha256": "f33aa0c9c6d46d2cd0065d5c3a437ab5a6d26cbe8b8f5d7b5d8c72aff601f71d"
+    },
+    {
+      "path": "docs/stk_metadata/scenario_daily_stress_templates.csv",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 26055,
+      "sha256": "bc2c72e69a38c19b1cb32de26ebd703365a9d2f13f68a70a7b16c99615c422b0"
+    },
+    {
+      "path": "docs/stk_metadata/scenario_family_file_map.csv",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 14116,
+      "sha256": "04c078aaf8f9a8017fc570f89d8b85007f07161b4b6dd12fe42a890251fbf53a"
+    },
+    {
+      "path": "docs/stk_metadata/sha256_manifest.csv",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 5885,
+      "sha256": "e2676b5dce103cfc8deac3ef7c7825b68ffaec538a6404b7dd0319ae36c3a8f1"
+    },
+    {
+      "path": "docs/stk_metadata/strict_environment_split_manifest.csv",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 728,
+      "sha256": "58de4d0e21bf22c01c5fdadf9fa04275e536d0bdb3b4f4b405612a3880854523"
+    },
+    {
+      "path": "docs/STK_SCENARIOS.md",
+      "role": "gates, provenance, lineage, STK scenarios",
+      "size_bytes": 10063,
+      "sha256": "306e5e1b9c8ea76e99d8df8a2c285670437355b09a25eea04a4e234178e8584d"
+    },
+    {
+      "path": "examples/example_expected_output.csv",
+      "role": "minimal input example",
+      "size_bytes": 2354,
+      "sha256": "f7742ae17dbd259d91ef62f06796772a4f12c02ca6b557274f5f1401ca4a4527"
+    },
+    {
+      "path": "examples/example_input.csv",
+      "role": "minimal input example",
+      "size_bytes": 1517,
+      "sha256": "d36303b21639f190d249566ec84caedf2fae06fe6fc6e0f17ad72e35ccdd4309"
+    },
+    {
+      "path": "examples/README.md",
+      "role": "minimal input example",
+      "size_bytes": 3036,
+      "sha256": "b2df23d2959fc57b8d532a36c21c4ef7dc947103f20d941f1e2e6afa604cf358"
+    },
+    {
+      "path": "LIMITATIONS.md",
+      "role": "limitations and forbidden claims",
+      "size_bytes": 10106,
+      "sha256": "7f004308b0224738135c10137b048cecfb2c68d7f29b86de0f5c2e68f7743ba6"
+    },
+    {
+      "path": "MODEL_CARD.md",
+      "role": "model card",
+      "size_bytes": 9150,
+      "sha256": "4f5953495e9864e88865c6fc3348c0fed7b21509d6961ebeb7b9b886ea54df68"
+    },
+    {
+      "path": "models/arc_clean_fixed_space.npz",
+      "role": "frozen model inputs — space, alphas, conformal half-widths",
+      "size_bytes": 5917,
+      "sha256": "475bd3e0220411a67e9782519150b63f984c4a6621669c667c395097d9ed4154"
+    },
+    {
+      "path": "models/conformal_quantiles.json",
+      "role": "frozen model inputs — space, alphas, conformal half-widths",
+      "size_bytes": 3621,
+      "sha256": "9153a4d21db68a5cafac3d297ef3215b668bab65579c0abf71f03cd6a1adab9c"
+    },
+    {
+      "path": "models/frozen_alpha.json",
+      "role": "frozen model inputs — space, alphas, conformal half-widths",
+      "size_bytes": 1229,
+      "sha256": "98cfa873a6c199fb5d7ecf32f6b8bb2f550c602c203786d0a61a479c654ff490"
+    },
+    {
+      "path": "README.md",
+      "role": "entry documentation",
+      "size_bytes": 7930,
+      "sha256": "b527e69a9bf81dbdcc54762865044477c4d4efb1751518a1d3505e3e20883fae"
+    },
+    {
+      "path": "REPRODUCIBILITY.md",
+      "role": "reproduction instructions",
+      "size_bytes": 9133,
+      "sha256": "0cca82a9ff9257c3c4b2aaae85ec5ee3e28209f86bb198aff3eb5df661a7d027"
+    },
+    {
+      "path": "requirements.lock",
+      "role": "pinned dependency closure",
+      "size_bytes": 1230,
+      "sha256": "de20110852f1022153f886a707cf8c3ebf14656f6932f59116c51a9a9ad2465e"
+    },
+    {
+      "path": "results/reference/claims_manifest.csv",
+      "role": "frozen reference results",
+      "size_bytes": 12876,
+      "sha256": "da2f41e01affcd567174db99d6005eced593530e68f6b810ec4d1bba6f6115f2"
+    },
+    {
+      "path": "results/reference/conformal_results_reference.csv",
+      "role": "frozen reference results",
+      "size_bytes": 68503,
+      "sha256": "b5ba5f80d6f922bc52751f94dd509af84c86913e3a3e8bf786832f4732cb9676"
+    },
+    {
+      "path": "results/reference/coverage_by_family_reference.csv",
+      "role": "frozen reference results",
+      "size_bytes": 61934,
+      "sha256": "d957586ae5b7f900093b978c7fe0b3f371f3290dbe73c0bd8b539c133f8a158e"
+    },
+    {
+      "path": "results/reference/coverage_by_horizon_reference.csv",
+      "role": "frozen reference results",
+      "size_bytes": 19737,
+      "sha256": "664c8b58f0c8d95033077b4baec0f77313766c62e5618713ab3d3fa03b39f14a"
+    },
+    {
+      "path": "results/reference/outer_fold_results_reference.csv",
+      "role": "frozen reference results",
+      "size_bytes": 5625,
+      "sha256": "8f785db06ed5b98603b81ac34a043ac45671c1cfa47cfb5750a9603808d3b7cc"
+    },
+    {
+      "path": "results/reference/result_summary.csv",
+      "role": "frozen reference results",
+      "size_bytes": 4600,
+      "sha256": "b04776754abc2bc8d1f77b39fbaadb4c686ad085f00b2a673c2645a488065e26"
+    },
+    {
+      "path": "results/reference/rul_results_summary.csv",
+      "role": "frozen reference results",
+      "size_bytes": 2510,
+      "sha256": "16ff5ce57dd23a5541b76d40cb2e5979f9fde82df7684806c0eb6dc2c668b6fa"
+    },
+    {
+      "path": "schemas/feature_schema_v2.json",
+      "role": "declared contracts",
+      "size_bytes": 1958,
+      "sha256": "738eefc6789524125f339efb383113326b1c624051985c6549c73b171c62446f"
+    },
+    {
+      "path": "schemas/forbidden_patterns.json",
+      "role": "declared contracts",
+      "size_bytes": 4998,
+      "sha256": "47793b0a24a6e2f2034f576acdb89d8a28ae453390fbdbe149ea1ec6d2e8c7d9"
+    },
+    {
+      "path": "schemas/predict_input_schema.json",
+      "role": "declared contracts",
+      "size_bytes": 2613,
+      "sha256": "48f673dcc995cb3ed74d69ce01300c2cd5408a25341f56b80bd63d88ab6672ad"
+    },
+    {
+      "path": "tests/test_release.py",
+      "role": "acceptance test suite",
+      "size_bytes": 34383,
+      "sha256": "5644289ad162879112069d5fb10cc46143a2315009e9c41e2a637210e32f4659"
+    }
+  ],
+  "does_not_create": [
+    "artifacts/production_model_v2",
+    "a promoted recommended_config",
+    "a production v2 model package"
+  ],
+  "must_be_retained": [
+    "CONFORMAL_NOT_VALIDATED",
+    "RUL_EVIDENCE_INSUFFICIENT",
+    "CANDIDATE_NOT_PROMOTED",
+    "SIMULATION_ONLY"
+  ]
+}

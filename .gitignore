@@ -19,5 +19,20 @@ wandb/
 .env
 .env.*
 
+# 本地私有工作区（PR body 草稿等，不入库）
+.private/
+
 # 大型或不可再分发数据不入库（经 manifest + 下载/生成脚本 + SHA256 治理）
 # 允许进入 Git 的小型 fixture 必须放在 tests/fixtures/，不得用宽泛的 data/ 例外绕过治理
+
+# 组件工件槽位：只允许 README 与 manifest 入库（tests/test_repository_boundary.py 强制）
+data/*
+!data/README.md
+!data/data_manifest.json
+results/*
+!results/README.md
+!results/public_summary.json
+!results/expected_metrics.json
+checkpoints/*
+!checkpoints/README.md
+!checkpoints/checkpoint_manifest.json

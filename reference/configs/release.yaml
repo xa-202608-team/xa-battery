@@ -1,0 +1,91 @@
+version: stk_transfer_v2_phase7_release_v1
+phase: '7'
+subject: self-contained delivery package, Docker specification, final report
+package_root: battery_release_v2
+package_is_self_contained: true
+parent_project_dependency: none
+requires_stk_installation: false
+requires_network_at_runtime: false
+point_model: target_only_arc_space
+high_stability_baseline: observable_local_trend_extrapolation
+transfer_mechanism: FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT
+transfer_mechanism_meaning: The frozen source ARC clip/scaler defines the FEATURE SPACE and is reused
+  unchanged; the regression head (coef + intercept) is refitted on target-domain rows only. The frozen
+  source coefficients are NOT used as a prior — Phase 3 ruled SOURCE_PRIOR_NOT_VALIDATED and that ruling
+  stands.
+frozen_verdicts:
+  point_model: target_only_arc_space
+  high_stability_baseline: observable_local_trend_extrapolation
+  transfer_mechanism: FEATURE_SPACE_TRANSFER_WITH_TARGET_DOMAIN_HEAD_REFIT
+  phase3_verdict: SOURCE_PRIOR_NOT_VALIDATED
+  TIME_NORMALIZATION_GATE: RATE_DAY_REPARAMETERIZATION_ONLY
+  EXPOSURE_GATE: EXPOSURE_INPUT_NOT_AVAILABLE
+  STRESS_GATE_LOW_DATA: STRESS_NOT_VALIDATED
+  STRESS_GATE_FULL_DATA: STRESS_NOT_VALIDATED
+  CONFORMAL_GATE: CONFORMAL_NOT_VALIDATED
+  rul_evidence: RUL_EVIDENCE_INSUFFICIENT
+  phase6: PHASE6_CLOSED_WITHOUT_TRAINING
+  patchtst: PATCHTST_SKIPPED_BY_PREDEFINED_GATE
+  candidate_status: CANDIDATE_NOT_PROMOTED
+  evidence_domain: SIMULATION_ONLY
+cli:
+  verify: python -m battery_entry verify
+  reproduce_quick: python -m battery_entry reproduce --mode quick --output <dir>
+  reproduce_full: python -m battery_entry reproduce --mode full --output <dir>
+  predict: python -m battery_entry predict --input <csv> --output <csv>
+quick_mode:
+  refits: the frozen head only, at the frozen alpha
+  selects_model: false
+  tunes_hyperparameters: false
+  target_runtime_seconds: 600
+  cpu_only: true
+full_mode:
+  refits: target_only_arc_space ONLY, frozen protocol/alpha/features
+  does_not_run:
+  - Source-Prior (Phase 3 SOURCE_PRIOR_NOT_VALIDATED)
+  - stress arms F2/F3 (Phase 4 STRESS_NOT_VALIDATED)
+  - exposure target T2 (Phase 4 EXPOSURE_INPUT_NOT_AVAILABLE)
+  - time rate target T1 (Phase 4 RATE_DAY_REPARAMETERIZATION_ONLY)
+  - PatchTST / TimesFM (Phase 6 closed without training)
+  - any new alpha grid
+  - conformal re-calibration
+  writes_only_to: the caller-supplied --output directory
+  overwrites_package_reference_results: false
+predict_mode:
+  validates:
+  - columns
+  - dtypes
+  - units
+  - time order
+  - context length
+  - forbidden columns
+  default_output: point prediction at days 28 / 56 / 112
+  interval_label: EXPERIMENTAL_SIMULATION_INTERVAL
+  rul_label: FINITE_HORIZON_EVIDENCE_INSUFFICIENT
+  exit_code_no_crossing_within_112d: 3
+  extrapolates_beyond_112_days: false
+numerical_acceptance:
+  release_vs_frozen_predictions_rtol: 0
+  release_vs_frozen_predictions_atol: 1.0e-12
+  metric_table_atol: 1.0e-09
+docker:
+  image_name: battery-soh-v2
+  base_image: python:3.9.25-slim-bookworm
+  cpu_only: true
+  contains_stk: false
+  contains_parent_project: false
+  network_at_runtime: false
+  runs_as_non_root: true
+  default_command: reproduce --mode quick --output /out
+  output_volume: /out
+candidate_manifest_status: CANDIDATE_NOT_PROMOTED
+creates_production_v2: false
+modifies_recommended_config: false
+modifies_project_status: false
+evidence_domain: SIMULATION_ONLY
+must_be_retained_even_when_engineering_is_complete:
+- CONFORMAL_NOT_VALIDATED
+- RUL_EVIDENCE_INSUFFICIENT
+- CANDIDATE_NOT_PROMOTED
+- SIMULATION_ONLY
+n_claims_bound_to_evidence: 24

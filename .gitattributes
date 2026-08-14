@@ -1,0 +1,8 @@
+# 文本文件统一 LF，保证跨平台行尾一致；Windows 批处理保留 CRLF；二进制不做转换
+* text=auto eol=lf
+*.bat text eol=crlf
+*.npz binary
+*.npy binary
+*.png binary
+*.jpg binary
+*.pdf binary
