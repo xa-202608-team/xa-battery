@@ -1,0 +1,101 @@
+{
+  "schema_version": "isolation_patterns_v2",
+  "purpose": "Pattern definitions for the verify no-parent-dependency and no-neural checks. Kept in DATA rather than in verify.py so the checker's own source does not match its own patterns, which would make the check circular and unfixable.",
+  "self_exempt_files": [
+    "schemas/forbidden_patterns.json"
+  ],
+  "self_exempt_reason": "This file DEFINES the patterns; scanning it would match every one of them by construction.",
+  "hard_failure_patterns": [
+    {
+      "pattern": "[A-Za-z]:[\\\\/](?:SUFA|Program |Users[\\\\/]|Anaconda|Windows[\\\\/])",
+      "why": "an absolute host path — would break on any other machine",
+      "scan": "raw"
+    },
+    {
+      "pattern": "AGI[\\\\/]STK|STK[\\\\/]Bin|stk[0-9]+\\.exe",
+      "why": "an STK installation directory reference — the package must not need STK",
+      "scan": "raw"
+    },
+    {
+      "pattern": "parents\\[\\s*[1-9]\\s*\\]",
+      "why": "parents[N>=1] walks OUT of the package root",
+      "scan": "code"
+    },
+    {
+      "pattern": "\\bsys\\.path\\.(?:insert|append)\\s*\\(\\s*[^)]*\\.\\.",
+      "why": "a sys.path manipulation reaching outside the package",
+      "scan": "code"
+    }
+  ],
+  "scan_field_meaning": "'raw' = the file as written, including docstrings and comments (these patterns are harmful even in prose, because an absolute host path in documentation is still wrong). 'code' = docstrings and comments stripped, because the pattern describes an executable escape that prose cannot perform.",
+  "forbidden_import_roots": [
+    "src",
+    "src.production_model",
+    "src.stk_transfer",
+    "src.stk_transfer_v2",
+    "src.multidataset_v1",
+    "scripts"
+  ],
+  "forbidden_import_reason": "Importing the research project's packages would make the release package non-self-contained. Checked at the AST level, so a conditional or aliased import is caught too.",
+  "parent_tree_path_patterns": [
+    {
+      "pattern": "(?:^|[^\\w/\\\\])(?:artifacts|reports|data|src|configs|scripts)[\\\\/](?:production_model_v[12]|stk_transfer|stk_transfer_v2|experimental_arc_sensitivity|afterstk|multidataset_v1|domain_comparison|spaceflight_summary)",
+      "why": "a path into the research project's tree"
+    },
+    {
+      "pattern": "SUFAcopy|SUFA_archive",
+      "why": "the research project root by name"
+    }
+  ],
+  "parent_tree_path_policy": "PROVENANCE_ALLOWED_BUT_NEVER_OPENED",
+  "parent_tree_path_policy_detail": "A RELATIVE path into the parent tree (e.g. 'src/production_model/features.py') cannot resolve from inside this package and is manifestly documentation: it records where a frozen input came from. Such mentions are counted and reported, not failed. What IS failed is any attempt to actually USE one: the checker walks the AST of every shipped .py file and refuses a file-opening call (open, Path, read_text, read_bytes, np.load, pd.read_csv, ...) whose argument contains such a literal.",
+  "file_opening_calls": [
+    "open",
+    "Path",
+    "read_text",
+    "read_bytes",
+    "load",
+    "read_csv",
+    "read_json",
+    "savez",
+    "to_csv",
+    "write_text",
+    "write_bytes",
+    "glob",
+    "rglob",
+    "resolve",
+    "joinpath"
+  ],
+  "neural_patterns": [
+    {"pattern": "\\bPatchTST\\s*\\(", "why": "a PatchTST instantiation"},
+    {"pattern": "\\bTimesFM\\b", "why": "a TimesFM reference"},
+    {"pattern": "\\btorch\\.nn\\b", "why": "a torch.nn neural layer"},
+    {"pattern": "\\bnn\\.Module\\b", "why": "a torch nn.Module subclass"},
+    {"pattern": "\\.backward\\s*\\(", "why": "a gradient backward pass"},
+    {"pattern": "\\boptim\\.(?:Adam|SGD|AdamW|RMSprop)\\b", "why": "a gradient optimiser"},
+    {"pattern": "\\bDataLoader\\s*\\(", "why": "a torch training data loader"},
+    {"pattern": "\\bnn\\.functional\\b", "why": "torch neural functional ops"}
+  ],
+  "neural_scan_scope": "python code only, docstrings and comments stripped",
+  "neural_permitted": "torch.linalg.solve is permitted and present: it is a closed-form linear solve, the lambda_source=0 limit of the frozen Phase 3 solver. The patterns above deliberately match only neural layers, autograd and optimisers, never a linear algebra call.",
+  "documentation_files_exempt_from_prose_scan": [
+    "MODEL_CARD.md",
+    "DATA_CARD.md",
+    "REPRODUCIBILITY.md",
+    "LIMITATIONS.md",
+    "README.md",
+    "CLAIMS_MANIFEST.json",
+    "release_manifest.json",
+    "docs/STK_SCENARIOS.md",
+    "docs/PROVENANCE.md",
+    "docs/DATA_LINEAGE.md",
+    "docs/GATES.md",
+    "configs/release.yaml",
+    "results/reference/claims_manifest.csv",
+    "results/reference/result_summary.csv",
+    "models/frozen_alpha.json",
+    "models/conformal_quantiles.json",
+    "schemas/feature_schema_v2.json"
+  ],
+  "documentation_exempt_reason": "These files DESCRIBE where the frozen inputs came from, which requires naming the upstream paths. They contain no executable code. Every .py file is scanned with no exemptions, and the AST file-opening check has no exemptions at all."
+}

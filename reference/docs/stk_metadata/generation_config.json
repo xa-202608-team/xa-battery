@@ -1,0 +1,23 @@
+{
+  "exact_stk_scenarios": 24,
+  "environment_families": 6,
+  "trajectories_per_family": 20,
+  "reference_step_days": 14,
+  "mission_days": 2190,
+  "eol_threshold": 0.7,
+  "warning_threshold": 0.8,
+  "strict_environment_family_split": {
+    "h550_i053_raan000": "target_train",
+    "h500_i070_raan090": "target_train",
+    "h550_i053_raan090": "target_calibration",
+    "h500_i070_raan180": "target_calibration",
+    "h550_i053_raan180": "target_test",
+    "h500_i070_raan000": "target_test"
+  },
+  "adaptation_subsets": {
+    "10pct": 4,
+    "25pct": 10,
+    "50pct": 20,
+    "100pct": 40
+  }
+}

@@ -1,0 +1,27 @@
+# Minimum runtime dependency closure, pinned exactly.
+#
+# Measured in the environment that produced every frozen result in this package:
+#   Python 3.9.25, Windows 11 (win32)
+#
+# Only four packages are needed to run verify / reproduce / predict. Everything else in
+# the research environment was a development convenience and is deliberately absent, so
+# the container stays small and the surface for version drift stays narrow.
+#
+# torch is OPTIONAL and is NOT installed by default: the ridge solve path defaults to
+# NumPy, and --solver torch is offered only because the competition may require a
+# PyTorch code path. It solves the same normal equations (see battery_entry/model.py
+# ::solve_ridge_weighted_torch), and tests/test_release.py::test_06 skips rather than
+# fails when torch is absent. To enable it, uncomment the pin below — note it adds
+# ~200 MB to the image.
+#
+# No network access is required at run time. Every input this package needs is inside it.
+
+numpy==2.0.2
+pandas==2.3.3
+PyYAML==6.0.2
+
+# Figure regeneration only (not needed by verify / reproduce / predict):
+matplotlib==3.9.4
+
+# Optional PyTorch path — CPU wheel only, never CUDA:
+# torch==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu

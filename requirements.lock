@@ -1,0 +1,18 @@
+# battery_pytorch_v3 依赖闭包（精确锁定）。
+#
+# 电池代码实际只用到下列 5 个第三方库（grep import 核实）：
+#   numpy (闭式解/特征), pandas (CSV/DataFrame), torch (LinearHead 预训练+梯度核对),
+#   pytest (等价性测试). scipy (twin L2 重建器 calibrate_reconstruction.py).
+#   不用 sklearn/PyYAML/matplotlib（相控阵才用）。
+#
+# torch 用 cu130 wheel（与相控阵统一）；但电池 src/finetune/_runtime.py 强制
+# torch.device("cpu") + float64 + 单线程，所以 GPU torch 装着、电池代码仍跑 CPU
+# （float64 CPU 是 gradient-vs-closed-form 等价性检验有意义的前提）。
+#
+# 版本与 conda env `pytorch_gpu` (Python 3.12.13) 对齐；v2 冻结包 verify 7/7 已验证。
+
+numpy==2.4.3
+pandas==3.0.3
+torch==2.11.0
+scipy>=1.13
+pytest==9.0.3

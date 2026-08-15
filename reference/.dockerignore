@@ -1,0 +1,32 @@
+# Keep the build context minimal and reproducible.
+
+# Caches and build detritus — these would also break a SHA256SUMS check inside the
+# image, because they are not declared in the release manifest.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Version control and editor state
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Output directories from local runs — never baked into the image
+out/
+output/
+_quick/
+_full/
+*.zip
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# The Dockerfile itself does not need to be inside the image
+Dockerfile
+.dockerignore

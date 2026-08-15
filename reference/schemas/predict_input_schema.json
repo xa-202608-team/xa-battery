@@ -1,0 +1,77 @@
+{
+  "schema_version": "predict_input_v2",
+  "description": "one row per (battery_id, reference_index) observed-SOH observation on the 14-day reference grid",
+  "required_columns": [
+    "battery_id",
+    "reference_index",
+    "soh_observed"
+  ],
+  "optional_columns": [
+    "timestamp_utc"
+  ],
+  "forbidden_columns": [
+    "soh_true",
+    "anchor_soh_true",
+    "rint_true",
+    "soh_noise_residual",
+    "target_soh_true",
+    "target_soh_observed",
+    "target_delta_soh_true",
+    "target_delta_soh_observed",
+    "audit_upper_bound_delta_soh_true_to_true",
+    "target_rul_days",
+    "target_rul_reference_steps",
+    "censored",
+    "rul_lower_bound_days",
+    "rul_lower_bound_reference_steps",
+    "future_realized_delta_efc",
+    "future_realized_delta_ah",
+    "future_realized_delta_wh",
+    "future_planned_delta_efc",
+    "future_planned_delta_ah",
+    "future_planned_delta_wh",
+    "environment_family_id",
+    "split",
+    "trajectory_id",
+    "altitude_km",
+    "inclination_deg",
+    "raan_deg"
+  ],
+  "forbidden_prefixes": [
+    "target_",
+    "future_realized_",
+    "future_planned_",
+    "audit_",
+    "legacy_proxy_",
+    "obs_hist_",
+    "stress_"
+  ],
+  "forbidden_suffixes": [
+    "_true"
+  ],
+  "column_types": {
+    "battery_id": "string",
+    "reference_index": "integer, strictly increasing per battery",
+    "soh_observed": "float, dimensionless, 0 < x <= 1.5",
+    "timestamp_utc": "string, ISO-8601 UTC (optional, carried through only)"
+  },
+  "context_length": 20,
+  "context_length_rule": "exactly 20 reference points per battery. A shorter history is REFUSED, not padded: padding would change the feature semantics.",
+  "reference_grid_days": 14,
+  "soh_range": {
+    "min_exclusive": 0.0,
+    "max_inclusive": 1.5
+  },
+  "unit_rule": "SOH is dimensionless. A percentage scale (0..100) is refused with a hint rather than silently divided.",
+  "time_order_rule": "reference_index must be strictly increasing. The 11 features read positions (last, diff1, h[0]), so a shuffled history yields well-formed nonsense.",
+  "outputs": {
+    "default": "point prediction of absolute SOH at days 28, 56, 112",
+    "intervals": "opt-in, labelled EXPERIMENTAL_SIMULATION_INTERVAL",
+    "rul": "opt-in, labelled FINITE_HORIZON_EVIDENCE_INSUFFICIENT"
+  },
+  "exit_codes": {
+    "0": "all predictions produced",
+    "2": "input refused by the schema validator",
+    "3": "predictions produced, but at least one path did not reach EOL within 112 days (NO_CROSSING_WITHIN_FORECAST_HORIZON); nothing extrapolated"
+  }
+}

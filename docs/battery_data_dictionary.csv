@@ -1,0 +1,13 @@
+field,unit,kind,online_available,sampling,source,model_input,is_truth
+voltage_v,V,遥测,是,30s,battery model,否,否
+current_a,A,遥测,是,30s,power balance,否,否
+temperature_c,°C,遥测,是,30s,thermal model,否,否
+soc,—,派生,是,30s,BMS/仿真,否,否
+dod_orbit,—,派生,是,每轨,累计,否,否
+efc,—,派生,是,每轨,累计,否,否
+q_max_ah_true,Ah,内部状态,否,14d,aging model,否,是
+rint_ohm_true,Ω,内部状态,条件性,14d,aging model,否,是
+soh_true,—,标签真值,否,14d,Q/Q0,否,是
+soh_observed,—,在线估计,是,14d,estimator（数据列名 soh）,BMS观测,否
+soh_est,—,在线估计(新),是,14d,src/observables,待定,否
+rul_days,day,标签,否,14d,EOL判据,否,是

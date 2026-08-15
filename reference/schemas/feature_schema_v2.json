@@ -1,0 +1,53 @@
+{
+  "schema_version": "frozen_exact_11d_v1",
+  "implementation": "battery_entry/features.py::common_features",
+  "implementation_provenance": "verbatim copy of src/production_model/features.py::common_features from the research project, which is the extractor that produced the shipped reference slice",
+  "n_features": 11,
+  "feature_names": [
+    "last",
+    "diff1",
+    "diff2",
+    "diff_long",
+    "slope5",
+    "slope_full",
+    "curvature",
+    "ctx_mean",
+    "ctx_std",
+    "ctx_min",
+    "ctx_max"
+  ],
+  "frozen_columns": [
+    "frozen_00_last",
+    "frozen_01_diff1",
+    "frozen_02_diff2",
+    "frozen_03_diff_long",
+    "frozen_04_slope5",
+    "frozen_05_slope_full",
+    "frozen_06_curvature",
+    "frozen_07_ctx_mean",
+    "frozen_08_ctx_std",
+    "frozen_09_ctx_min",
+    "frozen_10_ctx_max"
+  ],
+  "feature_names_sha256": "0d126f7b2a4e73464668aac38149fe535cf7bc472fa83e70f055e3eeffbf24a5",
+  "order_is_load_bearing": true,
+  "order_provenance": "the frozen source model manifest's feature_names; position in this list is the position in the model's design matrix",
+  "context_length": 20,
+  "context_length_provenance": "the frozen ARC route manifest (required_history_length)",
+  "reads_only": "an observed-SOH history (soh_observed)",
+  "reads_nothing_from": [
+    "any future reference point",
+    "any hidden-truth channel (*_true)",
+    "any exposure channel (realized or planned)",
+    "any environment-family or orbit column"
+  ],
+  "space": {
+    "name": "ARC_FROZEN_SPACE",
+    "owner": "REUSED_FROZEN_ARC_CLIP_SCALER",
+    "refitted_in_this_package": false,
+    "transform": "clip to frozen [clip_lo, clip_hi], then (x - mean) / std"
+  },
+  "anchor_column": "anchor_soh_observed",
+  "anchor_role": "ANCHOR_ROLE_ONLY",
+  "anchor_note": "bit-identical to frozen_00_last, so including it as a 12th design column would add a perfectly collinear duplicate rather than information"
+}

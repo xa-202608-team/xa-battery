@@ -1,0 +1,7 @@
+﻿environment_family_id,split,strict_environment_holdout,description
+h500_i070_raan000,target_test,1,All four seasonal templates and derived trajectories remain in this split.
+h500_i070_raan090,target_train,1,All four seasonal templates and derived trajectories remain in this split.
+h500_i070_raan180,target_calibration,1,All four seasonal templates and derived trajectories remain in this split.
+h550_i053_raan000,target_train,1,All four seasonal templates and derived trajectories remain in this split.
+h550_i053_raan090,target_calibration,1,All four seasonal templates and derived trajectories remain in this split.
+h550_i053_raan180,target_test,1,All four seasonal templates and derived trajectories remain in this split.

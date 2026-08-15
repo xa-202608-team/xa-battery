@@ -1,0 +1,64 @@
+{
+  "generated_at_utc": "2026-07-29T18:01:59.483673+00:00",
+  "input": {
+    "exact_stk_scenario_count": 24,
+    "environment_family_count": 6,
+    "total_power_duplicate_rows_removed": 207384,
+    "total_area_duplicate_rows_removed": 207384,
+    "missing_environment_position_scenarios": [
+      "T001_h550_i053_raan000_20260115_d72h_s30"
+    ],
+    "reconstructed_environment_scenario_count": 10
+  },
+  "outputs": {
+    "L0_rows": 207384,
+    "L1_rows": 207384,
+    "daily_stress_rows": 72,
+    "annual_calendar_rows": 2190,
+    "L2_rows": 14285,
+    "L3_rows": 50180,
+    "trajectory_count": 120,
+    "trajectory_split_counts": {
+      "target_test": 40,
+      "target_train": 40,
+      "target_calibration": 40
+    },
+    "window_split_counts": {
+      "target_calibration": 18148,
+      "target_train": 16628,
+      "target_test": 15404
+    },
+    "horizon_window_counts": {
+      "2": 13205,
+      "4": 12965,
+      "8": 12485,
+      "16": 11525
+    }
+  },
+  "telemetry_physics_checks": {
+    "soc_min_all_scenarios": 0.6529911959471887,
+    "soc_max_all_scenarios": 0.95,
+    "mean_orbit_dod_min": 0.0923770880536063,
+    "mean_orbit_dod_median": 0.2533690704151832,
+    "mean_orbit_dod_max": 0.2652540673779899,
+    "temperature_min_c": 19.44621523322742,
+    "temperature_max_c": 24.483358200726716,
+    "safe_mode_points_total": 0
+  },
+  "degradation_checks": {
+    "eol_reached_trajectory_count": 92,
+    "censored_trajectory_count": 28,
+    "eol_day_min": 690,
+    "eol_day_median": 1493.0,
+    "eol_day_max": 2141,
+    "soh_monotonicity_violations": 0,
+    "positive_target_delta_count": 0,
+    "censored_window_count": 16072
+  },
+  "evidence_level": "MULTI_SCENARIO_STK_SIM_UNCALIBRATED",
+  "limitations": [
+    "Exact frozen 11-feature extractor and source weights were not supplied.",
+    "Ageing coefficients are simulated and not calibrated to real satellite run-to-failure labels.",
+    "One scenario lacks position time series but retains valid power, beta-angle and access data."
+  ]
+}
